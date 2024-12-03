@@ -36,6 +36,8 @@ export async function POST(req: Request) {
     try {
       const collection = db.collection(ASTRA_DB_COLLECTION);
 
+      // console.log("collections = ",collection)
+
       const cursor = collection.find({}, {
         sort: {
           $vectorize: latestMessage,
@@ -43,11 +45,20 @@ export async function POST(req: Request) {
         limit: 7,
       });
 
+      console.log("cursor = ",cursor)
+
       const documents = await cursor.toArray();
 
-      const docsMap = documents?.map(doc => doc.text);
+//       const documents = [];
+// for await (const item of cursor) {
+//   documents.push(item);
+// }
 
-      docContext = JSON.stringify(docsMap);
+
+const docsMap = documents?.map(doc => doc.text);
+
+docContext = docsMap.toString();
+console.log("docContext =",docContext)
 
     } catch (error) {
       console.log("Error in finding collection...", error);
