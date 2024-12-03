@@ -45,7 +45,7 @@ export async function POST(req: Request) {
         limit: 7,
       });
 
-      console.log("cursor = ",cursor)
+      // console.log("cursor = ",cursor)
 
       const documents = await cursor.toArray();
 
