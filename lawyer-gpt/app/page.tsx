@@ -15,7 +15,7 @@ export default function Home() {
     input,
     handleInputChange,
     handleSubmit,
-  } = useChat({api:"api/chat",initialMessages:[]});
+  } = useChat();
 
   const noMessage = !messages || messages.length === 0;
 

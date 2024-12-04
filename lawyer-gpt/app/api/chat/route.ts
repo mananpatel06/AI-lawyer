@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { DataAPIClient } from "@datastax/astra-db-ts";
-import { createOpenAI } from '@ai-sdk/openai'
+import { CursorIsStartedError, DataAPIClient } from "@datastax/astra-db-ts";
+import { createOpenAI } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
 const {
@@ -14,14 +14,14 @@ const {
 
 const groq = createOpenAI({
   apiKey: GROQ_API_KEY,
-  baseURL: 'https://api.groq.com/openai/v1'
-})
+  baseURL: "https://api.groq.com/openai/v1",
+});
 const client = new DataAPIClient(ASTRA_DB_APPLICATION_TOKEN);
 const db = client.db(ASTRA_DB_API_ENDPOINT, { namespace: ASTRA_DB_NAMESPACE });
 
 export async function POST(req: Request) {
   try {
-    const {messages}  = await req.json();
+    const { messages } = await req.json();
     const latestMessage = messages[messages.length - 1]?.content;
 
     let docContext = "";
@@ -33,41 +33,41 @@ export async function POST(req: Request) {
 
     // const embedding = await embeddings.embedQuery(latestMessage);
 
-    try {
-      const collection = db.collection(ASTRA_DB_COLLECTION);
+    const collection = db.collection(ASTRA_DB_COLLECTION);
 
-      // console.log("collections = ",collection)
-
-      const cursor = collection.find({}, {
+    const cursor = await collection.find(
+      {},
+      {
         sort: {
           $vectorize: latestMessage,
         },
-        limit: 7,
-      });
+        limit: 5,
+      }
+    );
 
-      // console.log("cursor = ",cursor)
-
-      const documents = await cursor.toArray();
-
-//       const documents = [];
-// for await (const item of cursor) {
-//   documents.push(item);
-// }
-
-
-const docsMap = documents?.map(doc => doc.text);
-
-docContext = docsMap.toString();
-console.log("docContext =",docContext)
-
-    } catch (error) {
-      console.log("Error in finding collection...", error);
-      docContext = "";
+    // console.log("cursor = ",cursor)
+    let documents = [];
+    try {
+      documents = await cursor.toArray();
+    } catch (e) {
+      if (e instanceof CursorIsStartedError) {
+        console.log("cursor error", e.message); // "Cursor is already initialized..."
+      }
     }
 
+    // const documents = [];
+    // for await (const item of cursor) {
+    //   documents.push(item);
+    // }
+
+    const docsMap = documents?.map((doc) => doc.text);
+
+    docContext = docsMap.toString();
+    // console.log("docContext =", docContext);
+
     const template = {
-        role:"system",
-        content:`You are an AI lawyer who knows everything about "THE CONSTITUTION OF INDIA". Use the below context to augment what you know about the constitution of india. The context will provide you with the most recent data from the constitution of india. If the context doesn't include the information you need do not give answer based on your existing knowledge and don't mention the source of your information or what the context does or doesn't include. Format responses using markdown and don't return images. 
+      role: "system",
+      content: `You are an AI lawyer who knows everything about "THE CONSTITUTION OF INDIA". Use the below context to augment what you know about the constitution of india. The context will provide you with the most recent data from the constitution of india. If the context doesn't include the information you need do not give answer based on your existing knowledge and don't mention the source of your information or what the context does or doesn't include. Format responses using markdown and don't return images. 
         -------------
         START CONTEXT
 
@@ -77,10 +77,10 @@ console.log("docContext =",docContext)
         -------------
         QUESTION: ${latestMessage}
         -------------
-        `
-    }
+        `,
+    };
 
-    const model = groq('llama-3.1-70b-versatile')
+    const model = groq("llama-3.1-70b-versatile");
 
     // const response = await groq.chat.completions.create({
     //     messages: [template,...messages],
@@ -90,22 +90,12 @@ console.log("docContext =",docContext)
 
     const response = streamText({
       model,
-      messages:[template,...messages],
+      messages: [template, ...messages],
       temperature: 0.5,
       frequencyPenalty: 1,
-    })
-  
+    });
 
-      // console.log("documents = ",response.choices[0]?.message?.content)
-
-      // const res = streamText({});
-      // res.toAIStreamResponse(response.choices[0]?.message?.content||"Error from AI")      
-
-      // return new Response(response.choices[0]?.message?.content ||"Error from AI",{ status: 201 })
-
-      return response.toDataStreamResponse()
-
-
+    return response.toDataStreamResponse();
   } catch (error) {
     console.log("Error in db connection...", error);
   }
