@@ -2,7 +2,7 @@
 
 ### *Get A Quick Legal Advice* ⚖️
 
-🌐 **Website :** [AI Lawyer](https://ai-lawyer-beta.vercel.app/)
+🌐 **Website :** [AI Lawyer (beta)](https://ai-lawyer-beta.vercel.app/)
 
 **AI Lawyer** is a free, legal assistant to provide accurate legal advice based on the Indian Constitution. Using **AI-powered Retriever-Augmented Generation (RAG)**, **AI Lawyer** delivers quick, accurate legal advice.
 
