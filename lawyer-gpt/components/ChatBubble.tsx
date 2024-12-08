@@ -16,7 +16,7 @@ const ChatBubble = ({ message }: { message: Message }) => {
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full gap-3">
         <ReactMarkdown>{content}</ReactMarkdown>
         </div>
       </div>

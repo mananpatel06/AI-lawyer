@@ -9,6 +9,7 @@ const {
   ASTRA_DB_API_ENDPOINT,
   ASTRA_DB_APPLICATION_TOKEN,
   GROQ_API_KEY,
+  GROQ_MODEL,
   // HUGGINGFACE_API,
 } = process.env;
 
@@ -26,6 +27,10 @@ export async function POST(req: Request) {
 
     let docContext = "";
 
+    // You can create your using langchain hugginface for creating embeddings if you are not using AstraDB NVIDIA embedding.
+    // For more info check this 👇
+    // https://js.langchain.com/docs/integrations/text_embedding/hugging_face_inference/
+
     // const embeddings = new HuggingFaceInferenceEmbeddings({
     //   apiKey: HUGGINGFACE_API,
     //   model: "sentence-transformers/all-mpnet-base-v2",
@@ -35,8 +40,22 @@ export async function POST(req: Request) {
 
     const collection = db.collection(ASTRA_DB_COLLECTION);
 
-    const cursor = await collection.find(
+    const cursor = collection.find(
       {},
+
+      // Only use this if you are creating your own embeddings 
+      // {
+      //   sort: {
+      //     $vector: embedding,
+      //   },
+      //   limit: 5,
+      // }
+
+
+      // By default AstraDb provide NVIDIA NV-Embed-QA model for creating embedding 
+      // For more info check this 👇
+      // https://docs.datastax.com/en/astra-db-serverless/integrations/embedding-providers/nvidia.html 
+
       {
         sort: {
           $vectorize: latestMessage,
@@ -54,11 +73,6 @@ export async function POST(req: Request) {
         console.log("cursor error", e.message); // "Cursor is already initialized..."
       }
     }
-
-    // const documents = [];
-    // for await (const item of cursor) {
-    //   documents.push(item);
-    // }
 
     const docsMap = documents?.map((doc) => doc.text);
 
@@ -80,13 +94,7 @@ export async function POST(req: Request) {
         `,
     };
 
-    const model = groq("llama-3.1-70b-versatile");
-
-    // const response = await groq.chat.completions.create({
-    //     messages: [template,...messages],
-    //     model: "llama-3.1-70b-versatile",
-    //     // stream:true,
-    //   });
+    const model = groq(GROQ_MODEL);
 
     const response = streamText({
       model,
