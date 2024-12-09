@@ -1,7 +1,7 @@
 import React from "react";
 import { Message } from "ai";
-import { SparklesIcon } from "./LoadingBubble";
 import ReactMarkdown from "react-markdown";
+import { SparklesIcon } from "./Icons";
 
 const ChatBubble = ({ message }: { message: Message }) => {
   const { content, role } = message;

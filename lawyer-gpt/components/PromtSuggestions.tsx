@@ -1,4 +1,5 @@
 import React from "react";
+import { Links } from "./Navbar";
 
 const PromtSuggestions = ({
   onPromptClick,
@@ -21,7 +22,9 @@ const PromtSuggestions = ({
             AI-powered legal assistant, offering convenient legal insights at
             your fingertips.
           </p>
+        <Links/>
         </div>
+
 
         <div className=" grid grid-cols-2 gap-2 w-full">
           {prompts.map((prompt, index) => (

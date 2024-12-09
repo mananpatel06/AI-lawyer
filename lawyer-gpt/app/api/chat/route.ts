@@ -103,13 +103,14 @@ export async function POST(req: Request) {
 
     const response = streamText({
       model,
-      messages: [template, ...messages],
+      messages: [template,...messages.slice(-5)],
       temperature: 0.5,
       frequencyPenalty: 1,
     });
 
-    return response.toDataStreamResponse();
-  } catch (error) {
-    console.log("Error in db connection...", error);
+    return response.toDataStreamResponse({getErrorMessage:()=>"Error in Database"});
+  } catch (e) {
+    console.log("Error in connection...", e.message);
+    return "Error in connection"
   }
 }

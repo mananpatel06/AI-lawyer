@@ -7,6 +7,7 @@ import { useChat } from "ai/react";
 import { Message } from "ai";
 import { useEffect, useRef } from "react";
 import { useScrollToBottom } from "@/hooks/useScrollToBottom";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const {
@@ -61,7 +62,8 @@ export default function Home() {
     <>
       <main className="w-[100vw] h-[100vh] py-2 flex items-center flex-col ">
         {!noMessage && (
-          <nav className="p-1 font-mono text-2xl ">🤵 AI Lawyer</nav>
+          // <nav className="p-1 font-mono text-2xl ">🤵 AI Lawyer</nav>
+          <Navbar/>
         )}
 
         <div
