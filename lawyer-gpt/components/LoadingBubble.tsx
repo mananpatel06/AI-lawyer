@@ -3,9 +3,9 @@ import React from "react";
 export const LoadingBubble = () => {
   return (
     <>
-      <div className="flex p-2 md:px-20 gap-2 items-center">
-      <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-gray-600">
-          <SparklesIcon size={14} />
+      <div className="flex p-2  md:px-[5.5rem] gap-2 items-center">
+        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-gray-600">
+          <SparklesIcon />
         </div>
         <div className="w-4 h-4 rounded-full bg-gray-600 animate-bounce [animation-delay:.7s]"></div>
         <div className="w-4 h-4 rounded-full bg-gray-500 animate-bounce [animation-delay:.3s]"></div>
@@ -15,26 +15,17 @@ export const LoadingBubble = () => {
   );
 };
 
-
-export const SparklesIcon = ({ size = 16 }: { size?: number }) => (
+export const SparklesIcon = () => (
   <svg
-    height={size}
-    strokeLinejoin="round"
-    viewBox="0 0 16 16"
-    width={size}
-    style={{ color: 'currentcolor' }}
+    height={16}
+    fill="#fff"
+    width={16}
+    viewBox="0 0 512 512"
+    id="icons"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <path
-      d="M2.5 0.5V0H3.5V0.5C3.5 1.60457 4.39543 2.5 5.5 2.5H6V3V3.5H5.5C4.39543 3.5 3.5 4.39543 3.5 5.5V6H3H2.5V5.5C2.5 4.39543 1.60457 3.5 0.5 3.5H0V3V2.5H0.5C1.60457 2.5 2.5 1.60457 2.5 0.5Z"
-      fill="currentColor"
-    />
-    <path
-      d="M14.5 4.5V5H13.5V4.5C13.5 3.94772 13.0523 3.5 12.5 3.5H12V3V2.5H12.5C13.0523 2.5 13.5 2.05228 13.5 1.5V1H14H14.5V1.5C14.5 2.05228 14.9477 2.5 15.5 2.5H16V3V3.5H15.5C14.9477 3.5 14.5 3.94772 14.5 4.5Z"
-      fill="currentColor"
-    />
-    <path
-      d="M8.40706 4.92939L8.5 4H9.5L9.59294 4.92939C9.82973 7.29734 11.7027 9.17027 14.0706 9.40706L15 9.5V10.5L14.0706 10.5929C11.7027 10.8297 9.82973 12.7027 9.59294 15.0706L9.5 16H8.5L8.40706 15.0706C8.17027 12.7027 6.29734 10.8297 3.92939 10.5929L3 10.5V9.5L3.92939 9.40706C6.29734 9.17027 8.17027 7.29734 8.40706 4.92939Z"
-      fill="currentColor"
-    />
+    <path d="M208,512,155.62,372.38,16,320l139.62-52.38L208,128l52.38,139.62L400,320,260.38,372.38Z" />
+    <path d="M88,176,64.43,111.57,0,88,64.43,64.43,88,0l23.57,64.43L176,88l-64.43,23.57Z" />
+    <path d="M400,256l-31.11-80.89L288,144l80.89-31.11L400,32l31.11,80.89L512,144l-80.89,31.11Z" />
   </svg>
 );

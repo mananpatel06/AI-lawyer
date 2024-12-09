@@ -23,6 +23,12 @@ const db = client.db(ASTRA_DB_API_ENDPOINT, { namespace: ASTRA_DB_NAMESPACE });
 export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
+
+    // messages=[{
+    // id: id,
+    // content: prompt,
+    // role: "user"},...]
+
     const latestMessage = messages[messages.length - 1]?.content;
 
     let docContext = "";
@@ -77,11 +83,10 @@ export async function POST(req: Request) {
     const docsMap = documents?.map((doc) => doc.text);
 
     docContext = docsMap.toString();
-    // console.log("docContext =", docContext);
 
     const template = {
       role: "system",
-      content: `You are an AI lawyer who knows everything about "THE CONSTITUTION OF INDIA". Use the below context to augment what you know about the constitution of india. The context will provide you with the most recent data from the constitution of india. If the context doesn't include the information you need do not give answer based on your existing knowledge and don't mention the source of your information or what the context does or doesn't include. Format responses using markdown and don't return images. 
+      content: `Act as a top Supreme Court of India lawyer with 25+ years of experience in litigation, specializing in constitutional law, civil law, and appellate procedure under the Indian legal system. Chat with users in a friendly, approachable,non-intimidating manner, and respond to questions from users, providing clear, concise, and authoritative answers on various aspects of Indian law, including constitutional law, civil law, criminal law, and other relevant areas.Use everyday language and avoid technical jargon, making complex legal concepts easy to understand. Use the below context to answer the user question on a specific legal issue or problem, and respond in a empathetic, professional, and helpful manner. The context will provide you with the most recent data from the constitution of india. If the context doesn't include the information you need do not give answer based on your existing knowledge and don't mention the source of your information or what the context does or doesn't include. Format responses using markdown and don't return images. 
         -------------
         START CONTEXT
 

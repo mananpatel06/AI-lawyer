@@ -6,6 +6,7 @@ import PromtSuggestions from "@/components/PromtSuggestions";
 import { useChat } from "ai/react";
 import { Message } from "ai";
 import { useEffect, useRef } from "react";
+import { useScrollToBottom } from "@/hooks/useScrollToBottom";
 
 export default function Home() {
   const {
@@ -18,6 +19,7 @@ export default function Home() {
   } = useChat();
 
   const noMessage = !messages || messages.length === 0;
+  const [messageStartRef, messageEndRef] = useScrollToBottom();
 
   const handleClient = (prompt: string) => {
     const msg: Message = {
@@ -62,7 +64,10 @@ export default function Home() {
           <nav className="p-1 font-mono text-2xl ">🤵 AI Lawyer</nav>
         )}
 
-        <div className="flex flex-col  items-center justify-start w-full md:px-10 flex-1             overflow-y-scroll ">
+        <div
+          className="flex flex-col  items-center justify-start w-full md:px-10 flex-1             overflow-y-scroll "
+          ref={messageStartRef}
+        >
           <div className="w-[95%] h-full relative">
             {noMessage ? (
               <div className="h-full">
@@ -70,16 +75,17 @@ export default function Home() {
                 <PromtSuggestions onPromptClick={handleClient} />
               </div>
             ) : (
-              <div className="h-full">
+              <div>
                 {messages.map((message, index) => (
                   <ChatBubble key={`message-${index}`} message={message} />
                 ))}
-
-                {isLoading && messages[messages.length - 1].role === "user" && (
-                  <LoadingBubble />
-                )}
               </div>
             )}
+
+            {isLoading && messages[messages.length - 1].role === "user" && (
+              <LoadingBubble />
+            )}
+            <div ref={messageEndRef} className="w-1 h-0 bg-red-700"></div>
           </div>
         </div>
 
