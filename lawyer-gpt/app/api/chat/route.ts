@@ -111,6 +111,5 @@ export async function POST(req: Request) {
     return response.toDataStreamResponse({getErrorMessage:()=>"Error in Database"});
   } catch (e) {
     console.log("Error in connection...", e.message);
-    return "Error in connection"
   }
 }
