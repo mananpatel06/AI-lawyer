@@ -5,7 +5,7 @@ import { GithubIcon } from "./Icons";
 const Navbar = () => {
 
   return (
-    <nav className="p-2 w-[90%] flex items-center justify-between font-mono text-2xl border-b border-b-white mb-1">
+    <nav className="p-2 md:w-[90%] w-[95%] flex items-center justify-between font-mono md:text-2xl text-xl border-b border-b-white mb-1">
       <p>🤵 AI Lawyer</p>
       <Links />
     </nav>
@@ -14,7 +14,7 @@ const Navbar = () => {
 
 export const Links = () => {
     return (
-        <div className="flex gap-2 text-base font-mono">
+        <div className="flex gap-2 md:text-lg text-sm font-mono">
         <Link
           href="https://github.com/mananpatel06/AI-lawyer"
           target="_blank"

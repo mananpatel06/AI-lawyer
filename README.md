@@ -13,6 +13,8 @@
 ## 📚 **Legal Coverage**
 
 - 🏛️ **The Indian Constitution**
+- 📜 **The Bharatiya Nyaya Sanhita, 2023**
+- 📝 **The Bharatiya Nagarik Suraksha Sanhita, 2023**
 
 Other Coming Soon
 

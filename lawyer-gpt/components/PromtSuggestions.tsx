@@ -7,8 +7,8 @@ const PromtSuggestions = ({
   onPromptClick: (prompt: string) => void;
 }) => {
   const prompts = [
-    "what to do If someone files a false case against me in India ?",
-    "For how many years a person has to be a High Court judge to become a Supreme Court Judge ?",
+    "What to do if someone files a false case against me in India?",
+    "Is Indian law gender neutral? Answer only either yes or no.",
   ];
 
   return (
@@ -18,9 +18,7 @@ const PromtSuggestions = ({
           <p className="p-1 font-mono text-5xl">🤵 AI Lawyer</p>
           <p className="p-1 md:text-2xl text-xl leading-10">
             {" "}
-            Get quick, insightful answers to your law-related questions with our
-            AI-powered legal assistant, offering convenient legal insights at
-            your fingertips.
+            Get quick, insightful answers to your law-related questions with our free, open-source, AI-powered legal assistant, offering convenient legal insights at your fingertips.
           </p>
         <Links/>
         </div>

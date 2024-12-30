@@ -34,6 +34,6 @@ body {
 
 @layer components{
   .links{
-    @apply inline-flex border-2 border-transparent hover:border-[#27272A] hover:bg-transparent  items-center gap-1 bg-[#27272A] p-1 rounded-md
+    @apply inline-flex border-2 border-transparent hover:border-[#27272A] hover:bg-transparent  items-center gap-1 bg-[#27272A] p-1 rounded-md 
   }
 }
